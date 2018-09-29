@@ -1,0 +1,47 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import javax.swing.*;
+
+public class Client {
+	BufferedReader in;
+    PrintWriter out;
+    
+    public Client() {
+
+        // Layout GUI
+        textField.setEditable(false);
+        messageArea.setEditable(false);
+        frame.getContentPane().add(textField, "North");
+        frame.getContentPane().add(new JScrollPane(messageArea), "Center");
+        frame.pack();
+
+        // Add Listeners
+        textField.addActionListener(new ActionListener() {
+            /**
+             * Responds to pressing the enter key in the textfield by sending
+             * the contents of the text field to the server.    Then clear
+             * the text area in preparation for the next message.
+             */
+            public void actionPerformed(ActionEvent e) {
+                out.println(textField.getText());
+                textField.setText("");
+            }
+        });
+    }
+	private void run() throws IOException {
+		String serverAddress = "127.0.0.1";
+        Socket socket = new Socket(serverAddress, 8910);
+        System.out.println("Client test");
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        System.out.println(in.readLine());
+        out = new PrintWriter(socket.getOutputStream(), true);
+		
+	}
+	public static void main(String[] args) throws Exception {
+		Client c = new Client();
+		c.run();
+
+	}
+
+}

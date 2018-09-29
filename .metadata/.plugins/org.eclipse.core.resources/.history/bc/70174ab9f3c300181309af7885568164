@@ -1,0 +1,15 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Client {
+	private run() {
+		
+	}
+	public static void main(String[] args) {
+		Client c = new Client();
+		c.run()
+
+	}
+
+}
