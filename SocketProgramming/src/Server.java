@@ -11,6 +11,7 @@ public class Server {
 	//Set port for Server
 	private static final int port = 8910;
 	
+	
 	//Handler many clients with Thread
 	public static void main(String[] args) throws Exception {
 		System.out.println("Server is Running...");
@@ -20,6 +21,7 @@ public class Server {
 		
 		try {
 			while(true) {
+				//new Client
 				new Handler(listener.accept()).start();
 			}
 		}finally {
@@ -30,7 +32,6 @@ public class Server {
 	
 	//Handler thread class
 	private static class Handler extends Thread{
-		private String name;
 		private Socket socket;
 		private BufferedReader in;
         private PrintWriter out;
@@ -42,13 +43,26 @@ public class Server {
         
         //Running process
         public void run(){
-        	//set communicate i/o
         	try {
+        		//set communicate i/o
         		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        		out = new PrintWriter(socket.getOutputStream(), true);
+        		while(true) {
+        			String input = in.readLine();
+        			if(input == null) {
+        				return;
+        			}
+        			System.out.println(input);
+        		}
         	}catch (IOException e){
         		 System.out.println(e);
         	}finally {
-				
+				try {
+					//this client is going down close socket
+					socket.close();
+				}catch(IOException e){
+					System.out.println(e);
+				}
 			}
         }
 	}
