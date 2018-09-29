@@ -47,6 +47,7 @@ public class Server {
         		//set communicate i/o
         		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         		out = new PrintWriter(socket.getOutputStream(), true);
+        		out.println("Hello client i am server");
         		while(true) {
         			String input = in.readLine();
         			if(input == null) {
