@@ -18,6 +18,9 @@ public class Client {
     private JTextField tf = new JTextField("");
     private JLabel countdown = new JLabel("Countdown");
     
+    private int score = 0;
+    private int no = 0;
+    
     public Client() {
     	//Draw UI 
     	fr.add(countdown, BorderLayout.SOUTH);
@@ -30,8 +33,14 @@ public class Client {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				out.println(tf.getText());
-				tf.setText("");
+				int res = Integer.parseInt(tf.getText());
+				if(res == (num1.get(no) + num2.get(no))) {
+					score += 1;
+					out.println(score);
+					tf.setText("");
+					no += 1;
+					ta.append(num1.get(no) + "+" + num2.get(no) + "\n");
+				}
 			}
 		});
     }
@@ -53,12 +62,7 @@ public class Client {
 			
 			object = objIn.readObject();
 			num2 = (ArrayList<Integer>)object;
-			for(int n : num1) {
-				ta.append(n + "\n");
-			}
-			for(int n : num2) {
-				ta.append("num2" + n + "\n");
-			}
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -69,8 +73,10 @@ public class Client {
         	if(line.equals("start")) {
         		Timer t = new Timer();
         		t.start();
+        		ta.append(num1.get(no) + "+" + num2.get(no)+"\n");
+        	}else {
+        		ta.append(line);        		
         	}
-        	ta.append(line);
         }
 	}
 

@@ -85,7 +85,7 @@ public class Server {
         		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         		out = new PrintWriter(socket.getOutputStream(), true);
         		lout = socket.getOutputStream();
-        		out.println("Hello client i am server");
+        		out.println("Hello client i am server\n");
         		ObjectOutputStream objOut = new ObjectOutputStream(lout);
         		objOut.writeObject(num1);
         		objOut.writeObject(num2);
