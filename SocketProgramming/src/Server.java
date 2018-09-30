@@ -90,6 +90,8 @@ public class Server {
         		objOut.writeObject(num1);
         		objOut.writeObject(num2);
         		
+        		out.println("start");
+        		
         		while(true) {
         			String input = in.readLine();
         			if(input == null) {

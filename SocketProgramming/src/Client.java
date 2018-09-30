@@ -35,7 +35,7 @@ public class Client {
 			}
 		});
     }
-    
+
 	private void run() throws IOException {		
 		String serverAddress = "127.0.0.1";
         Socket socket = new Socket(serverAddress, 8910);
@@ -63,11 +63,28 @@ public class Client {
 			e.printStackTrace();
 		}
         
-        
+		
         while(true) {
         	String line = in.readLine();
+        	if(line.equals("start")) {
+        		Timer t = new Timer();
+        		t.start();
+        	}
         	ta.append(line);
         }
+	}
+
+	class Timer extends Thread{
+		public void run() {
+			for(int j = 60; j >= 0; j--) {
+				try {
+					Thread.sleep(1000);
+					countdown.setText("Time : " + j);
+				}catch(InterruptedException e) {
+					System.out.println(e);
+				}
+			}
+		}
 	}
 	public static void main(String[] args) throws Exception {
 		Client c = new Client();
@@ -78,3 +95,4 @@ public class Client {
 	}
 
 }
+
