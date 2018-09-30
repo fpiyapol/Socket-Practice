@@ -10,6 +10,10 @@ public class Server {
 	
 	//Set port for Server
 	private static final int port = 8910;
+	private static ArrayList<Integer> num1 = new ArrayList<Integer>();
+	private static ArrayList<Integer> num2 = new ArrayList<Integer>();
+	
+	private static Random ran = new Random();
 	
 	
 	//Handler many clients with Thread
@@ -19,6 +23,38 @@ public class Server {
 		//Create Socket Listener
 		ServerSocket listener = new ServerSocket(port);
 		
+		Thread s1 = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				for(int i=1; i<=5; i++) {
+					int  n = ran.nextInt(9) + 1;
+					num1.add(n);
+				}
+				for(int i=1; i<=7; i++) {
+					int  n = ran.nextInt(99) + 10;
+					num1.add(n);
+				}
+			}
+		});
+		
+		Thread s2 = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				for(int i=1; i<=5; i++) {
+					int  n = ran.nextInt(9) + 1;
+					num2.add(n);
+				}
+				for(int i=1; i<=7; i++) {
+					int  n = ran.nextInt(99) + 10;
+					num2.add(n);
+				}
+			}
+		});
+			
+		s1.start();
+		s2.start();
 		try {
 			while(true) {
 				//new Client
@@ -35,6 +71,7 @@ public class Server {
 		private Socket socket;
 		private BufferedReader in;
         private PrintWriter out;
+        private OutputStream lout;
         
         //Constructs set thread socket
         public Handler(Socket socket) {
@@ -47,7 +84,12 @@ public class Server {
         		//set communicate i/o
         		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         		out = new PrintWriter(socket.getOutputStream(), true);
+        		lout = socket.getOutputStream();
         		out.println("Hello client i am server");
+        		ObjectOutputStream objOut = new ObjectOutputStream(lout);
+        		objOut.writeObject(num1);
+        		objOut.writeObject(num2);
+        		
         		while(true) {
         			String input = in.readLine();
         			if(input == null) {
