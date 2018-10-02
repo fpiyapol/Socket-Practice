@@ -50,13 +50,10 @@ public class Client {
         Socket socket = new Socket(serverAddress, 8910);
         System.out.println("Client test");
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        ta.append(in.readLine());
         out = new PrintWriter(socket.getOutputStream(), true);
-        
-        //Prepare for get ArrayList (num1)
         ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream());
         Object object;
-		try {
+        try {
 			object = objIn.readObject();
 			num1 = (ArrayList<Integer>)object;
 			
@@ -66,11 +63,14 @@ public class Client {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-        
 		
         while(true) {
         	String line = in.readLine();
-        	if(line.equals("start")) {
+        	if(line.equals("ENTERNAME")) {
+        		System.out.println("cl a");
+        		out.println("A");
+        		out.println("READY");
+        	}else if(line.equals("START")) {
         		Timer t = new Timer();
         		t.start();
         		ta.append(num1.get(no) + "+" + num2.get(no)+"\n");
