@@ -109,6 +109,7 @@ public class NewServer {
 	private static class clientHandler extends Thread{
 		private Socket cs;
 		private String name;
+		private String input;
         private PrintWriter out;
         private BufferedReader in;
         private ObjectOutputStream objOut;
@@ -124,9 +125,7 @@ public class NewServer {
 				out = new PrintWriter(cs.getOutputStream(), true);				
 				objOut = new ObjectOutputStream(cs.getOutputStream());
 				
-				//send obj num1 num2 to client
-        		objOut.writeObject(num1);
-        		objOut.writeObject(num2);
+				out.println("Hello i am Server");
 				
         		//Loop for get unique name of client user
 				while(true) {
@@ -143,9 +142,25 @@ public class NewServer {
 					}
 				}
         		
+				out.println("NAMEACCEPTED");
+				
+				//loop for send object number to client
+				while(true) {
+	        		objOut.writeObject(num1);
+	        		objOut.writeObject(num2);
+					
+	        		input = in.readLine();
+	        		
+					if(input.equals("RECVED")) {
+						break;
+					}
+				
+					
+				}
+				
 				//communication between both
 				while(true) {
-					String input = in.readLine();
+					input = in.readLine();
         			if(input == null) {
         				return;
         			}else if(input.equals("READY")) {
