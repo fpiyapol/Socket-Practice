@@ -29,6 +29,8 @@ public class NewServer {
 	private static int score = 0;
 	
 	public NewServer() {
+		
+		//Draw GUI
 		display.setEditable(false);
 		frame.add(display, BorderLayout.NORTH);
 		frame.add(ta);
@@ -109,7 +111,7 @@ public class NewServer {
 		private String name;
         private PrintWriter out;
         private BufferedReader in;
-        private OutputStream lout;
+        private ObjectOutputStream objOut;
 		
 		public clientHandler(Socket cs) {
 			this.cs = cs;
@@ -119,16 +121,17 @@ public class NewServer {
 			try {
 				System.out.println("Connected");
 				in = new BufferedReader(new InputStreamReader(cs.getInputStream()));
-				out = new PrintWriter(cs.getOutputStream(), true);
-				lout = cs.getOutputStream();
+				out = new PrintWriter(cs.getOutputStream(), true);				
+				objOut = new ObjectOutputStream(cs.getOutputStream());
 				
-				ObjectOutputStream objOut = new ObjectOutputStream(lout);
+				//send obj num1 num2 to client
         		objOut.writeObject(num1);
         		objOut.writeObject(num2);
 				
+        		//Loop for get unique name of client user
 				while(true) {
 					out.println("ENTERNAME");
-					String name = in.readLine();
+					name = in.readLine();
 					if(name == null) {
 						return;
 					}
@@ -140,12 +143,12 @@ public class NewServer {
 					}
 				}
         		
+				//communication between both
 				while(true) {
 					String input = in.readLine();
         			if(input == null) {
         				return;
         			}else if(input.equals("READY")) {
-        				System.out.println("R");
         				out.println("START");
                 		timer t = new timer();
                 		t.start();
@@ -172,6 +175,8 @@ public class NewServer {
 		genNum2 gn2 = new genNum2();
 		gn1.start();
 		gn2.start();
+		//Name of user as server
+		names.add("Server");
 		try {
 			while(true) {
 				clientHandler ch = new clientHandler(ss.accept());
