@@ -106,6 +106,10 @@ public class NewServer {
 		}
 	}
 	
+	private static class rank extends Thread {
+		
+	}
+	
 	private static class clientHandler extends Thread{
 		private Socket cs;
 		private String name;

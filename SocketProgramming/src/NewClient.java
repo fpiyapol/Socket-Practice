@@ -51,6 +51,7 @@ public class NewClient {
 					tf.setText("");
 					no += 1;
 					display.setText(num1.get(no) + " + " + num2.get(no));
+					out.println(score);
 				}
 				
 			}
